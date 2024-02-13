@@ -28,11 +28,9 @@ class Auth():
         """
         if request is None:
             return None
-        
-        
+
     def current_user(self, request=None) -> str:
         """ Current user
         """
         if request is None:
             return None
-        
