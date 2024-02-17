@@ -5,6 +5,7 @@ from api.v1.views import app_views
 from flask import request
 from models.user import User
 from os import getenv
+from typing import List, TypeVar
 
 
 class Auth():
@@ -35,3 +36,11 @@ class Auth():
         """
         if request is None:
             return None
+
+    def session_cookie(self, request=None) -> str:
+        """ Session cookie
+        """
+        if (not request):
+            return (None)
+
+        return (request.cookies.get(getenv("SESSION_NAME")))    
