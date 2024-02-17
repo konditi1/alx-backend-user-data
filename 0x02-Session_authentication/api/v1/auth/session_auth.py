@@ -13,9 +13,15 @@ from models.user import User
 class SessionAuth(Auth):
     """
     An instance of Session Authentication.
-    
+    parameters:
+        Auth (Auth): An instance of Auth
+    methods:
+        create_session
+        user_id_for_session_id
+        current_user
+        destroy_session
     """
-    user_id_by_session_id = {}
+    user_id_by_session_id = {}    
 
     def create_session(self, user_id: str = None) -> str:
         """
