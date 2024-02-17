@@ -21,7 +21,7 @@ class SessionAuth(Auth):
         current_user
         destroy_session
     """
-    user_id_by_session_id = {}    
+    user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
         """
@@ -91,20 +91,13 @@ class SessionAuth(Auth):
         if (not request):
             return (False)
 
-        # Return false flag when the request
-        # has no cookie (or the value None).
         session_id = self.session_cookie(request)
         if (not session_id):
             return (False)
 
-        # Return false flag when session for
-        # some reason is not for the current
-        # user.
         if (not self.user_id_for_session_id(session_id)):
             return (False)
 
-        # Delete user's session.
         del self.user_id_by_session_id[session_id]
 
         return (True)
-    
