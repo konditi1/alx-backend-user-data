@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Module of Auth
 """
-from api.v1.views import app_views
+
 from flask import request
 from models.user import User
 from os import getenv
