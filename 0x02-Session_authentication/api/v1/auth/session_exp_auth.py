@@ -8,6 +8,7 @@ from os import getenv
 from datetime import datetime, timedelta
 from .session_auth import SessionAuth
 
+
 class SessionExpAuth(SessionAuth):
     """
     A session with an expiry date.
@@ -30,7 +31,8 @@ class SessionExpAuth(SessionAuth):
             user_id (str): The id for a user who needs a new session.
 
         Returns:
-            str: A uuid4 string representing the created session, or None if the operation fails.
+            str: A uuid4 string representing the created session,
+            or None if the operation fails.
         """
         session_id = super().create_session(user_id)
 
@@ -49,10 +51,10 @@ class SessionExpAuth(SessionAuth):
         Retrieve the id for the user who owns the session with the given id.
 
         Parameters:
-            session_id (str): The id for the session whose user needs to be retrieved.
+            session_id (str):id for session whose user needs to be retrieved.
 
         Returns:
-            str: The id for the user with the given session, or None if the operation fails.
+            str:id for user with the given session, or None if operation fails.
         """
         if not session_id:
             return None
@@ -68,9 +70,10 @@ class SessionExpAuth(SessionAuth):
         if not session_data.get("created_at"):
             return None
 
-        expire_date = session_data.get("created_at") + timedelta(seconds=self.session_duration)
+        expire_date = session_data.get("created_at") + timedelta(
+            seconds=self.session_duration)
 
-        from api.v1.app import app  # Consider importing app at the top level to avoid circular imports.
+        from api.v1.app import app
         app.logger.error(expire_date)
         app.logger.error(datetime.now())
         app.logger.error(expire_date - datetime.now())
