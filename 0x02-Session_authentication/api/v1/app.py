@@ -82,7 +82,7 @@ def before_request():
         # Retrieve the current authenticated user
         request.current_user = auth.current_user(request)
 
-        # Check for forbidden requests for current user 
+        # Check for forbidden requests for current user
         if not auth.current_user(request):
             abort(403)
 
