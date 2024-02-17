@@ -3,8 +3,10 @@
 Route module for the API
 """
 from os import getenv
+from typing import Tuple
+
 from api.v1.views import app_views
-from flask import Flask, jsonify, abort, request
+from flask import Flask, jsonify, abort, request, Response
 from flask_cors import (CORS, cross_origin)
 import os
 
@@ -41,27 +43,27 @@ if auth:
 
 
 @app.errorhandler(404)
-def not_found(error) -> str:
+def not_found(error) -> tuple[Response, int]:
     """ To handle not found
     """
     return jsonify({"error": "Not found"}), 404
 
 
 @app.errorhandler(401)
-def not_authorized(error) -> str:
+def not_authorized(error) -> tuple[Response, int]:
     """
     Default handler for unauthorized requests.
     """
-    return (jsonify({"error": "Unauthorized"}), 401)
+    return jsonify({"error": "Unauthorized"}), 401
 
 
 @app.errorhandler(403)
-def not_allowed(error) -> str:
+def not_allowed(error) -> tuple[Response, int]:
     """
     Default handler for requests forbidden
     resource.
     """
-    return (jsonify({"error": "Forbidden"}), 403)
+    return jsonify({"error": "Forbidden"}), 403
 
 
 @app.before_request
@@ -85,8 +87,8 @@ def before_request():
         # Retrieve the current authenticated user
         request.current_user = auth.current_user(request)
 
-        # Check for forbidden requests for current user 
-        if (not auth.current_user(request)):
+        # Check for forbidden requests for current user
+        if not auth.current_user(request):
             abort(403)
 
 
