@@ -47,6 +47,9 @@ class DB:
 
     def find_user_by(self, **kwargs) -> Union[Type[User], None]:
         """Find user
+
+        Args:
+            **kwargs: arguments
         """
         if not kwargs:
             raise InvalidRequestError("Invalid")
@@ -65,9 +68,11 @@ class DB:
             elif key == "email":
                 return self._session.query(User).filter_by(email=value).one()
             elif key == "session_id":
-                return self._session.query(User).filter_by(session_id=value).one()
+                return self._session.query(User).filter_by(
+                    session_id=value).one()
             elif key == "reset_token":
-                return self._session.query(User).filter_by(reset_token=value).one()
+                return self._session.query(User).filter_by(
+                    reset_token=value).one()
         except NoResultFound:
             raise NoResultFound("Not found")
 
