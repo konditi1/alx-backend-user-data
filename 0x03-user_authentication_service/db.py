@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """DB module
 """
+from typing import Type, Union
 
 from sqlalchemy import create_engine
+from sqlalchemy.exc import InvalidRequestError, NoResultFound
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import Session
@@ -38,6 +40,32 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+    def find_user_by(self, **kwargs) -> Union[Type[User], None]:
+        """Find user
+        """
+        if not kwargs:
+            raise InvalidRequestError("Invalid")
+
+        if len(kwargs) != 1:
+            raise InvalidRequestError("Invalid")
+
+        key, value = next(iter(kwargs.items()))
+
+        if key not in ["id", "email", "session_id", "reset_token"]:
+            raise InvalidRequestError("Invalid")
+
+        try:
+            if key == "id":
+                return self._session.query(User).filter_by(id=value).one()
+            elif key == "email":
+                return self._session.query(User).filter_by(email=value).one()
+            elif key == "session_id":
+                return self._session.query(User).filter_by(session_id=value).one()
+            elif key == "reset_token":
+                return self._session.query(User).filter_by(reset_token=value).one()
+        except NoResultFound:
+            raise NoResultFound("Not found")
 
 
 if __name__ == "__main__":
