@@ -52,15 +52,15 @@ class DB:
             **kwargs: arguments
         """
         if not kwargs:
-            raise InvalidRequestError("Invalid")
+            raise InvalidRequestError
 
         if len(kwargs) != 1:
-            raise InvalidRequestError("Invalid")
+            raise InvalidRequestError
 
         key, value = next(iter(kwargs.items()))
 
         if key not in ["id", "email", "session_id", "reset_token"]:
-            raise InvalidRequestError("Invalid")
+            raise InvalidRequestError
 
         try:
             if key == "id":
@@ -74,7 +74,7 @@ class DB:
                 return self._session.query(User).filter_by(
                     reset_token=value).one()
         except NoResultFound:
-            raise NoResultFound("Not found")
+            raise NoResultFound
 
 
 if __name__ == "__main__":
