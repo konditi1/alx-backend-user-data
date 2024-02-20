@@ -37,3 +37,7 @@ class DB:
         self._session.add(user)
         self._session.commit()
         return user
+
+
+if __name__ == "__main__":
+    db = DB()
