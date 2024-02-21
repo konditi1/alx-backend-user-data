@@ -30,6 +30,17 @@ class Auth:
         except ValueError:
             raise ValueError("User <user's email> already exists")
 
+    def login_user(self, email: str, password: str) -> bool:
+        """Login user
+        Args:
+            email (str): email
+            password (str): password
+        """
+        user = self._db.find_user_by(email=email)
+        if user or bcrypt.checkpw(password.encode('utf-8'), user.hashed_password):
+            return True
+        return False
+
 
 def _hash_password(password: str) -> bytes:
     """Hashes the input password using bcrypt."""
