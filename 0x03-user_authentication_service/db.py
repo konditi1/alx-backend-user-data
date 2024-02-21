@@ -75,6 +75,8 @@ class DB:
                     reset_token=value).one()
         except NoResultFound:
             raise NoResultFound
+        except InvalidRequestError:
+            raise InvalidRequestError
 
 
 if __name__ == "__main__":
