@@ -3,8 +3,7 @@
 basic flask app
 """
 
-from flask import Flask, jsonify, request, Response
-
+from flask import Flask, jsonify, request
 from auth import Auth
 
 app = Flask(__name__)
@@ -12,15 +11,19 @@ AUTH = Auth()
 
 
 @app.route('/', methods=['GET'], strict_slashes=False)
-def welcome() -> Response:
+def welcome() -> str:
     """Welcome
     """
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
-def register_user() -> Response | tuple[Response, int]:
+def register_user() -> str:
     """Register user
+
+    Args:
+        email (str): email
+        password (str): password
     """
     email = request.form.get('email')
     password = request.form.get('password')
